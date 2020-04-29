@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import midterm.problem2.RegularExpression;
 
 public class Main {
 	public static void main(String[] args) {
@@ -17,6 +18,7 @@ public class Main {
 		JSONObject jObject = null;
 		JSONArray arrayInfo = null;
 		Scanner sysin = new Scanner(System.in);
+		RegularExpression re = new RegularExpression();
 		try {
 			fr = new FileReader("midterm.json");
 		} catch (FileNotFoundException e) {
@@ -35,7 +37,7 @@ public class Main {
 		arrayInfo = (JSONArray) jObject.get("poem");
 		// Since this state, Parsing is done.
 		
-		System.out.print("Enter the keyword you are looking for: ");
+		System.out.print("Enter the pattern you are looking for: ");
 		String keyword = sysin.next();
 		
 		for (int i = 0; i < arrayInfo.size(); i++) {
@@ -43,11 +45,12 @@ public class Main {
 			JSONObject tmpObject = (JSONObject) arrayInfo.get(i);
 			String tmpInfo = (String) tmpObject.get("item");
 			// Find it.
-			int tmpIndex = tmpInfo.indexOf(keyword);
-			if (tmpIndex >= 0) {
+			if (re.check(tmpInfo, keyword)) {
 				System.out.print("item " + i + ": ");
 				System.out.println(tmpInfo);
 			}
 		}
+		
+		sysin.close();
 	}
 }
